@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hausa Sentiment Analysis</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Hausa Sentiment Analysis</h1>
+    <form method="POST" action="/predict">
+        <textarea name="text" placeholder="Enter text for sentiment analysis"></textarea>
+        <button type="submit">Analyze</button>
+    </form>
+    {% if prediction %}
+    <div class="result">
+        <p>Text: {{ text }}</p>
+        <p>Prediction: {{ prediction }}</p>
+        {% if prediction == "Positive" %}
+        <p class="emoji">
+            <img src="{{ url_for('static', filename='happy.png') }}" alt="Happy Emoji" width="50px" height="50px">
+        </p>
+        {% elif prediction == "Negative" %}
+        <p class="emoji">
+            <img src="{{ url_for('static', filename='sad.png') }}" alt="Sad Emoji" width="50px" height="50px">
+        </p>
+        {% else %}
+        <p class="emoji">
+            <img src="{{ url_for('static', filename='neutral.png') }}" alt="Neutral Emoji" width="50px" height="50px">
+        </p>
+        {% endif %}
+        <p class="probability">
+            Probability (Negative): {{ probability[0] }}<br>
+            Probability (Neutral): {{ probability[1] }}<br>
+            Probability (Positive): {{ probability[2] }}
+        </p>
+        <form action="/" method="GET">
+            <button type="submit">Refreshed</button>
+        </form>
+    </div>
+
+    {% endif %}
+</body>
+</html>
